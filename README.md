@@ -1,7 +1,7 @@
 [![License][license-shield]][license-url]
 
 # Utilities
-Repository with some utilities scripts written by me though time
+Repository with some utilities scripts written by me through time
 
 ## Linux Shell Scripts
 ### File chjava<span/>.sh
