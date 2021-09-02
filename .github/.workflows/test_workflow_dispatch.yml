@@ -1,0 +1,32 @@
+---
+name: Test Workflow Dispatch Variables
+
+on:
+  # Run manually in "Actions -> Test Workflow Dispatch Variables -> Run workflow"
+  # Pass the version you want to check
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to be checked'
+        required: false
+
+jobs:
+  test-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup TAG
+        run: |
+          git fetch --tags && \
+          echo ::set-output name=TAG::$([[ -z "$INPUT_VERSION" ]] git describe --tags `git rev-list --tags --max-count=1 || echo "$INPUT_VERSION"`)
+        id: setupTag
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+
+      - name: Display Result
+        run: |
+            echo "Here's the selected tag: $TAG"
+        env:
+          TAG: ${{ steps.setupTag.outputs.TAG }}
